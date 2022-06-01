@@ -13,4 +13,7 @@ def approx_pi(i: int):
   return (i - outside_circle) / i * 4
 
 # the higher the iteration count, the more precise the approximation and the longer the code will take to run
-print(approx_pi(100000000))
+# degree increases exponentially, an increase in degree would increase the execution time by 10 times
+degree = 10
+
+print(approx_pi(10 ** degree))
