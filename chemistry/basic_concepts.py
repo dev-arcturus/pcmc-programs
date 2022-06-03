@@ -5,8 +5,7 @@ def safe_int_convert(str):
   try: return int(str)
   except(ValueError): return None  
 
-
-Element = namedtuple('Element', 'symbol atomic_number atomic_mass group')
+Element = namedtuple('Element', 'chemical_name atomic_number atomic_mass group')
 
 ELEMENTS = {
     'H': Element('Hydrogen', 1, 1, 'Non Metals'),
@@ -17,7 +16,7 @@ ELEMENTS = {
     'C': Element('Carbon', 6, 12, 'Non Metals'),
     'N': Element('Nitrogen', 7, 14, 'Non Metals'),
     'O': Element('Oxygen', 8, 16, 'Non Metals'),
-    'F': Element('F', 9, 19, 'Halogens'),
+    'F': Element('Florine', 9, 19, 'Halogens'),
     'Ne': Element('Neon', 10, 20, 'Noble Gasses'),
     'Na': Element('Sodium', 11, 23, 'Alkali Metals'),
     'Mg': Element('Magnesium', 12, 24, 'Alkaline Earth Metal'),
@@ -38,26 +37,48 @@ ELEMENTS = {
     'Ga': Element('Gallium', 31, 70, 'Other Metals'),
 }
 
-def get_elements_from_compound(compound):
-  return re.findall(r'[A-Z][a-z]*[1-9]*', compound) 
+def get_elements_from_compound(compound): return re.findall(r'[A-Z][a-z]*[1-9]*', compound) 
+
+def lookup(key): return ELEMENTS[re.findall(r'[A-Z][a-z]*', key)[0]]
 
 def get_molar_mass(compound):
-  elements = get_elements_from_compound(compound)
-  molar_mass = 0
+  elements, molar_mass = get_elements_from_compound(compound), 0
+  try: moles = int(re.match(r'[0-9]+', compound).group())
+  except: moles = 1
   for element in elements:
-    coefficient = 1
     try: coefficient = safe_int_convert(re.findall(r'[2-9]+', element)[0])
-    except(IndexError): pass
-    lookup = re.findall(r'[A-Z][a-z]*', element)[0]
-    molar_mass += ELEMENTS[lookup].atomic_mass * coefficient
-  return molar_mass
+    except(IndexError): coefficient = 1
+    molar_mass += lookup(element).atomic_mass * coefficient
+  return molar_mass * moles
+
+def find_limiting_reagent(equation, given_masses_of_reactants):
+  [[r1, r2], product], GMR = equation, given_masses_of_reactants
+  MM = [get_molar_mass(x) for x in [r1, r2, product]]
+  r2needed = GMR[0] * MM[1] / MM[0]
+  if r2needed > GMR[1]: return lookup(r2).chemical_name
+  else: return lookup(r1).chemical_name
 
 def get_molarity(compound, volume): return get_molar_mass(compound) / volume
 
-def get_molality(compound, molarity, density):
-  mass_of_solution = density / 1000
+def get_molality(compound, molarity, density_in_kgm3):
+  mass_of_solution = density_in_kgm3 / 1000
   mass_of_solute = get_molar_mass(compound) / 1000 * molarity
   mass_of_solvent = mass_of_solution - mass_of_solute
   return round(molarity / mass_of_solvent)
 
-print(get_molality("NaCl", 3, 1250))
+
+def balance_equation(reactants, products):
+  # TODO: implement this functions
+  def recurse(reactants, products): # adjust and recurse until equation is balanced
+    reactants_tally = {}
+    for reactant in reactants:
+      elements = get_elements_from_compound(reactant) 
+      for element in elements:
+        if element in reactants_tally.keys(): reactants_tally[elements] += 1
+        else: reactants_tally[elements] = 1
+    products_tally = {}
+    for product in products:
+      elements = get_elements_from_compound(product)
+      for element in elements:
+        if element in products_tally.keys(): products_tally[elements] += 1
+        else: products_tally[elements] = 1
