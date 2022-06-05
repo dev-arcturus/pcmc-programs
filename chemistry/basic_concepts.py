@@ -39,16 +39,19 @@ ELEMENTS = {
 
 def get_elements_from_compound(compound): return re.findall(r'[A-Z][a-z]*[1-9]*', compound) 
 
-def lookup(key): return ELEMENTS[re.findall(r'[A-Z][a-z]*', key)[0]]
+def isolate_element(element): return re.search(r'[A-Z][a-z]*', element).group()
+
+def lookup(key): return ELEMENTS[isolate_element(key)]
+
+def get_coefficient(element):
+  try: return safe_int_convert(re.findall(r'[2-9]+', element)[0])
+  except(IndexError): return 1
 
 def get_molar_mass(compound):
   elements, molar_mass = get_elements_from_compound(compound), 0
   try: moles = int(re.match(r'[0-9]+', compound).group())
   except: moles = 1
-  for element in elements:
-    try: coefficient = safe_int_convert(re.findall(r'[2-9]+', element)[0])
-    except(IndexError): coefficient = 1
-    molar_mass += lookup(element).atomic_mass * coefficient
+  for element in elements: molar_mass += lookup(element).atomic_mass * get_coefficient(element)
   return molar_mass * moles
 
 def find_limiting_reagent(equation, given_masses_of_reactants):
@@ -57,8 +60,6 @@ def find_limiting_reagent(equation, given_masses_of_reactants):
   r2needed = GMR[0] * MM[1] / MM[0]
   if r2needed > GMR[1]: return lookup(r2).chemical_name
   else: return lookup(r1).chemical_name
-
-print(find_limiting_reagent([["N2", "3O2"], "2NH3"], [50000, 10000]))
 
 def get_molarity(compound, volume): return get_molar_mass(compound) / volume
 
@@ -70,17 +71,20 @@ def get_molality(compound, molarity, density_in_kgm3):
 
 
 def balance_equation(reactants, products):
-  # TODO: implement this functions
-  def recurse(reactants, products): # adjust and recurse until equation is balanced
-    reactants_tally = {}
-    for reactant in reactants:
-      elements = get_elements_from_compound(reactant) 
-      for element in elements:
-        if element in reactants_tally.keys(): reactants_tally[elements] += 1
-        else: reactants_tally[elements] = 1
-    products_tally = {}
-    for product in products:
-      elements = get_elements_from_compound(product)
-      for element in elements:
-        if element in products_tally.keys(): products_tally[elements] += 1
-        else: products_tally[elements] = 1
+  R, P, tR, tP = reactants, products, {}, {}
+
+  for [wing, tally] in [[R, tR], [P, tP]]:
+    for x in wing:
+      print(x)
+      for e in [get_coefficient(y) for y in get_elements_from_compound(x)]:
+        print("\t", e)
+        if e in tally.keys(): tally[e][0] += 1
+        else: tally[e] = [1]
+
+  for x in tR:
+    a, b = tP[x][0], tR[x][0] 
+    if a != b: pass
+
+  print(tR, tP, sep='\n')
+
+balance_equation(["H2", "O2"], ["H2O"])
