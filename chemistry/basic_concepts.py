@@ -58,6 +58,8 @@ def find_limiting_reagent(equation, given_masses_of_reactants):
   if r2needed > GMR[1]: return lookup(r2).chemical_name
   else: return lookup(r1).chemical_name
 
+print(find_limiting_reagent([["N2", "3O2"], "2NH3"], [50000, 10000]))
+
 def get_molarity(compound, volume): return get_molar_mass(compound) / volume
 
 def get_molality(compound, molarity, density_in_kgm3):
