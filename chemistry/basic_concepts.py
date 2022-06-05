@@ -74,15 +74,13 @@ def balance_equation(reactants, products):
   R, P, tR, tP = reactants, products, {}, {}
 
   for [wing, tally] in [[R, tR], [P, tP]]:
-    for x in wing:
-      print(x)
-      for e in [get_coefficient(y) for y in get_elements_from_compound(x)]:
-        print("\t", e)
-        if e in tally.keys(): tally[e][0] += 1
-        else: tally[e] = [1]
+    for compound in wing:
+      for [element, i] in [[isolate_element(y), get_coefficient(y)] for y in get_elements_from_compound(compound)]:
+        if element in tally.keys(): tally[element] += i
+        else: tally[element] = i
 
   for x in tR:
-    a, b = tP[x][0], tR[x][0] 
+    a, b = tP[x], tR[x] 
     if a != b: pass
 
   print(tR, tP, sep='\n')
