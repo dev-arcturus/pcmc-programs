@@ -1,6 +1,8 @@
 from collections import namedtuple
 import re
 
+from misc.utils import get_hcf
+
 def safe_int_convert(str):
   try: return int(str)
   except(ValueError): return None  
@@ -81,7 +83,8 @@ def balance_equation(reactants, products):
 
   for x in tR:
     a, b = tP[x], tR[x] 
-    if a != b: pass
+    if a != b:
+      get_hcf(a, b)
 
   print(tR, tP, sep='\n')
 
