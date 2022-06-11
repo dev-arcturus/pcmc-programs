@@ -4,20 +4,18 @@ def safe_get_index(array, search):
   try: return array.index(search)
   except(ValueError): return None
 
-def below_floating_point(x): return x * (10 ** (-1 * len(str(x).strip())))
-
 def calculate_offset(x):
   return ("." in str(x) and -1 * (len(str(x)) - 1 - safe_get_index([_ for _ in str(x)], "."))) or 0
 
-def break_up_decimal(x): return [int(z) for z in str(x).split(".")[:2]] if "." in str(x) else [x, 0]
-
-def from_decimal(x, base):
-  if x == 0: return "0"
-  if x < 0: x, base = -x, base * -1
-  [a, b], [x, y], is_float = ["", ""], [break_up_decimal(x)[0], below_floating_point(break_up_decimal(x)[1])] , "." in str(x)
+def from_decimal(n, base):
+  if n == 0: return "0"
+  if n < 0: n, base = -n, base * -1
+  [a, b], [x, y], is_float = ["", ""], [int(n), n - int(n)] , "." in str(n)
   while x > 0: a, x = bits[x % base] + a, x // base
-  while y < base - 1 and y != 0: b, y = b + str(bits[int(y % base)]), y * base 
+  while y < 1 and y != 0: b, y = b + str(bits[int(y * base)]), y * base 
   return f"{a}.{b}" if is_float else a
+
+print(from_decimal(10.5025, 2))
 
 def to_decimal(x, base):
   result, offset, x = 0, calculate_offset(x), str(x).replace(".", "")
