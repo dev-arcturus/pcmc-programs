@@ -12,10 +12,12 @@ def from_decimal(n, base):
   if n < 0: n, base = -n, base * -1
   [a, b], [x, y], is_float = ["", ""], [int(n), n - int(n)] , "." in str(n)
   while x > 0: a, x = bits[x % base] + a, x // base
-  while y < 1 and y != 0: b, y = b + str(bits[int(y * base)]), y * base 
+  while y != 1 and y != 0:
+    print(b, y)
+    b, y = b + str(bits[int(y * base)]), y * base - (1 if y * base > 1 else 0)
   return f"{a}.{b}" if is_float else a
 
-print(from_decimal(10.5025, 2))
+print(from_decimal(10.75, 2))
 
 def to_decimal(x, base):
   result, offset, x = 0, calculate_offset(x), str(x).replace(".", "")
