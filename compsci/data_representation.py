@@ -7,14 +7,14 @@ def safe_get_index(array, search):
 def calculate_offset(x):
   return ("." in str(x) and -1 * (len(str(x)) - 1 - safe_get_index([_ for _ in str(x)], "."))) or 0
 
+def break_up_float(x): return int(str(x).split(".")[0]), float(f"0.{str(x).split('.')[1]}")
+
 def from_decimal(n, base):
   if n == 0: return "0"
   if n < 0: n, base = -n, base * -1
-  [a, b], [x, y], is_float = ["", ""], [int(n), n - int(n)] , "." in str(n)
+  [a, b], [x, y], is_float = ["", ""], break_up_float(n) , "." in str(n)
   while x > 0: a, x = bits[x % base] + a, x // base
-  while y != 1 and y != 0:
-    print(b, y)
-    b, y = b + str(bits[int(y * base)]), y * base - (1 if y * base > 1 else 0)
+  while y != 1 and y != 0: b, y = b + str(bits[int(y * base)]), y * base - (1 if y * base > 1 else 0)
   return f"{a}.{b}" if is_float else a
 
 print(from_decimal(10.75, 2))
