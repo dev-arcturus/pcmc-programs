@@ -17,8 +17,6 @@ def from_decimal(n, base):
   while y != 1 and y != 0: b, y = b + str(bits[int(y * base)]), y * base - (1 if y * base > 1 else 0)
   return f"{a}.{b}" if is_float else a
 
-print(from_decimal(10.75, 2))
-
 def to_decimal(x, base):
   result, offset, x = 0, calculate_offset(x), str(x).replace(".", "")
   for i, c in enumerate(x): result += bits.index(c) * (base ** (len(x) - i + offset - 1))
