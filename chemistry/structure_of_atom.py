@@ -14,3 +14,9 @@ def get_radius(shells):
 
 def get_energy(shells):
     return -1 * RYDBERGS / (shells ** 2)
+
+def get_frequency_of_bohrs_orbit(change_in_energy):
+    return change_in_energy / PLANKS
+
+def get_angular_momentum(mass, velocity, radius):
+    return mass * velocity * radius
