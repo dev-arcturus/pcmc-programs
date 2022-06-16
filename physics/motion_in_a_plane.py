@@ -8,23 +8,23 @@ class Vector():
     return self.__repr__()
 
   def __add__(self, other):
-    self.x += other.x
-    self.y += other.y
+    x = self.x + other.x
+    y = self.y + other.y
     return self
 
   def __sub__(self, other):
-    self.x -= other.x
-    self.y -= other.y
+    x = self.x - other.x
+    y = self.y - other.y
     return self
   
   def __mul__(self, other):
-    self.x *= other.x
-    self.y *= other.y
+    x = self.x * other.x
+    y = self.y * other.y
     return self
   
   def __truediv__(self, other):
-    self.x /= other.x
-    self.y /= other.y
+    x= self.x / other.x
+    y = self.y / other.y
     return self
   
   def __str__(self):
