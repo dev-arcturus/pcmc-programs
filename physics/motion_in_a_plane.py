@@ -1,8 +1,12 @@
 class Vector():
-  def __init__(self, x=0, y=0):
+  def __init__(self, x=0, y=0, z=0):
     self.x = x
     self.y = y
-  
+    self.z = z
+
+  def analytic_form(self):
+    return self.__repr__()
+
   def __add__(self, other):
     self.x += other.x
     self.y += other.y
@@ -23,10 +27,12 @@ class Vector():
     self.y /= other.y
     return self
   
+  def __str__(self):
+    [x, y, z] = [self.x, self.y, self.z]
+    if z == 0: return f'({x}, {y})'
+    return f'({x}, {y}, {z})' 
+
   def __repr__(self):
-    return f"({self.x}, {self.y})"
-
-
-A = Vector(1, 2)
-B = Vector(3, 4)
-print(A * B)
+    [x, y, z] = [self.x, self.y, self.z]
+    if z == 0: return f'{x}î + {y}ĵ'
+    return f'{x}î + {y}ĵ + {z}k̂'
