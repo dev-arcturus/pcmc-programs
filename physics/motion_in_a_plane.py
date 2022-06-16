@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, atan, cos
 from functools import reduce
 
 
@@ -15,7 +15,7 @@ class Vector():
     return round(sqrt(reduce(lambda x, y: x + y ** 2, [self.x, self.y, self.z])), 2)
 
   def get_theta(self):
-    pass
+    return atan(self.y / self.x)
 
   def __add__(self, other):
     x = self.x + other.x
@@ -47,5 +47,6 @@ class Vector():
     if z == 0: return f'{x}î + {y}ĵ'
     return f'{x}î + {y}ĵ + {z}k̂'
 
-A = Vector(3, 4)
-print(A.get_magnitude())
+def get_magnitude_of_resultant_vector(A: Vector, B: Vector):
+  mA, mB = [x.get_magnitude() for x in [A, B]]
+  return round(sqrt(mA ** 2 + mB ** 2 + 2 * mA * mB * cos(B.get_theta())), 2)
