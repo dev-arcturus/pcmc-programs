@@ -10,22 +10,22 @@ class Vector():
   def __add__(self, other):
     x = self.x + other.x
     y = self.y + other.y
-    return self
+    return [x, y]
 
   def __sub__(self, other):
     x = self.x - other.x
     y = self.y - other.y
-    return self
+    return [x, y]
   
   def __mul__(self, other):
     x = self.x * other.x
     y = self.y * other.y
-    return self
+    return [x, y]
   
   def __truediv__(self, other):
     x= self.x / other.x
     y = self.y / other.y
-    return self
+    return [x, y]
   
   def __str__(self):
     [x, y, z] = [self.x, self.y, self.z]
