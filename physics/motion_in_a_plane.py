@@ -19,16 +19,16 @@ class Vector():
     return atan(self.y / self.x)
 
   def __add__(self, other):
-    return [self.x + other.x, self.y + other.y, self.z + other.z]
+    return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
 
   def __sub__(self, other):
-    return [self.x - other.x, self.y - other.y, self.z - other.z]
+    return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
   
   def __mul__(self, other):
-    return [self.x * other.x, self.y * other.y, self.z * other.z]
+    return Vector(self.x * other.x, self.y * other.y, self.z * other.z)
   
   def __truediv__(self, other):
-    return [self.x / other.x, self.y / other.y, self.z  other.z]
+    return Vector(self.x / other.x, self.y / other.y, self.z / other.z)
   
   def __str__(self):
     [x, y, z] = [self.x, self.y, self.z]
