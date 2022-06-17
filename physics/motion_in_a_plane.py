@@ -9,6 +9,9 @@ class Vector():
     self.y = y
     self.z = z
 
+  def scalar(self):
+    return [abs(self.x), abs(self.y), abs(self.z)]
+
   def analytic_form(self):
     return self.__repr__()
   
