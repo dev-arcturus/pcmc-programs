@@ -48,4 +48,8 @@ def get_alpha(A: Vector, B: Vector):
   mA, mB, theta = [*[x.get_magnitude() for x in [A, B]], B.get_theta()]
   return degrees(atan(mB * sin(theta) / (mA + mB * cos(theta))))
 
+def dotP(A: Vector, B: Vector):
+  pass
 
+def crossP(A: Vector, B: Vector):
+  pass
