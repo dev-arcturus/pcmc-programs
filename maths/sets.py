@@ -42,10 +42,3 @@ def get_compliment(set, universal):
   for x in universal:
     if x not in set: set_.append(x)
   return set_
-
-setA = create([1, 2, 3, 4, 5])
-setB = create([3, 4, 5, 6, 7])
-
-# display(create([1, 2, 8, 8, 8, 9, 10]))
-
-display(intersection(setA, setB))
