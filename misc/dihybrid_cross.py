@@ -1,8 +1,7 @@
 import string, random
 
 class GamateError(BaseException):
-   def __init__(self, arg):
-      self.args = arg
+   def __init__(self, arg): self.args = arg
 
 def add_matrices(x, y):
   result = []
@@ -59,12 +58,9 @@ while True:
       )
     print()
 
-GT1 = [[GT1[0], GT1[1]], [GT1[2], GT1[3]]]
-GT2 = [[GT2[0], GT2[1]], [GT2[2], GT2[3]]]
+GT1, GT2 = [[*GT1[0:2]], [*GT1[2:4]]], [[*GT2[0:2]], [*GT2[2:4]]]
 
-
-GT1 = add_matrices(GT1[0], GT1[1])
-GT2 = add_matrices(GT2[0], GT2[1])
+GT1, GT2 = add_matrices(*GT1[0:2]), add_matrices(*GT2[0:2])
 
 GTD, GTD_MAP, PTD_MAP = [], {}, {}
 

@@ -1,11 +1,7 @@
 bits = "0123456789ABCDEF"
 
-def safe_get_index(array, search):
-  try: return array.index(search)
-  except(ValueError): return None
-
 def calculate_offset(x):
-  return ("." in str(x) and -1 * (len(str(x)) - 1 - safe_get_index([_ for _ in str(x)], "."))) or 0
+  return ("." in str(x) and -1 * (len(str(x)) - 1 - [_ for _ in str(x)].find("."))) or 0
 
 def break_up_float(x): return int(str(x).split(".")[0]), float(f"0.{str(x).split('.')[1]}")
 

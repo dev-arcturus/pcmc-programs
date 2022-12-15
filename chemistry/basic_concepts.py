@@ -4,11 +4,9 @@ import re
 # from misc.utils import get_hcf
 
 
-def safe_int_convert(str):
-    try:
-        return int(str)
-    except(ValueError):
-        return None
+def safe_int_convert(string: str):
+    if not string.isdigit(): return None
+    else: return int(string)
 
 
 Element = namedtuple(
@@ -57,35 +55,24 @@ def lookup(key): return ELEMENTS[isolate_element(key)]
 
 
 def get_coefficient(element):
-    try:
-        return safe_int_convert(re.findall(r'[2-9]+', element)[0])
-    except(IndexError):
-        return 1
-
+    try: return safe_int_convert(re.findall(r'[2-9]+', element)[0])
+    except(IndexError): return 1
 
 def get_molar_mass(compound):
     elements, molar_mass = get_elements_from_compound(compound), 0
-    try:
-        moles = int(re.match(r'[0-9]+', compound).group())
-    except:
-        moles = 1
+    try: moles = int(re.match(r'[0-9]+', compound).group())
+    except: moles = 1
     for element in elements:
         molar_mass += lookup(element).atomic_mass * get_coefficient(element)
     return molar_mass * moles
-
 
 def find_limiting_reagent(equation, given_masses_of_reactants):
     [[r1, r2], product], GMR = equation, given_masses_of_reactants
     MM = [get_molar_mass(x) for x in [r1, r2, product]]
     r2needed = GMR[0] * MM[1] / MM[0]
-    if r2needed > GMR[1]:
-        return lookup(r2).chemical_name
-    else:
-        return lookup(r1).chemical_name
-
+    return lookup(r2 if r2needed > GMR[1] else r1).chemical_name
 
 def get_molarity(compound, volume): return get_molar_mass(compound) / volume
-
 
 def get_molality(compound, molarity, density_in_kgm3):
     mass_of_solution = density_in_kgm3 / 1000
