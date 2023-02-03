@@ -11,6 +11,6 @@ def approx_pi(i: int):
   return (i - outside_circle) / i * 4
 
 # the higher the degree, the more precise the approximation; degree scales exponentially at O(10^n)
-degree = 5
+degree = 9
 
 print(approx_pi(10 ** degree))
